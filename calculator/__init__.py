@@ -55,7 +55,7 @@ class Calculator:
 
     @staticmethod
     def get_history():
-         """Retrieve the history of all performed calculations."""
+        """Retrieve the history of all performed calculations."""
         return Calculator.history
 
     @staticmethod
