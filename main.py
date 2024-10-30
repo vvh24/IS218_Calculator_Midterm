@@ -1,6 +1,11 @@
-import sys
 import logging
-from calculator import Calculator  # Assuming Calculator is defined elsewhere
+from calculator import Calculator  # Adjust to point to your calculation functions
+from commands.interactive_calculator import load_plugins  # Adjust path if necessary
+import pandas as pd
+import os
+
+# Ensure data folder exists
+os.makedirs('data', exist_ok=True)
 
 # Configure logging
 logging.basicConfig(
@@ -9,68 +14,80 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-def show_menu():
-    print("Available operations:")
-    print("1. add")
-    print("2. subtract")
-    print("3. multiply")
-    print("4. divide")
-    print("Enter 'exit' to quit")
+# Function to show available commands
+def show_help():
+    print("\nAvailable commands:")
+    print("1. add <num1> <num2>")
+    print("2. subtract <num1> <num2>")
+    print("3. multiply <num1> <num2>")
+    print("4. divide <num1> <num2>")
+    print("5. history - view calculation history")
+    print("6. clear_history - clear all history records")
+    print("7. plugins - list all loaded plugins")
+    print("8. help - display this menu")
+    print("Type 'exit' to quit\n")
 
-def calculate_and_print(a, b, operation):
-    try:
-        a = float(a)
-        b = float(b)
-        logging.debug(f"Converted inputs to floats: {a}, {b}")
-    except ValueError:
-        logging.error(f"Invalid number input: {a} or {b} is not a valid number.")
-        raise ValueError(f"Invalid number input: {a} or {b} is not a valid number.")
+# Main REPL loop
+def main():
+    print("Welcome to the Calculator! Type 'help' to see available commands.")
+    calculator = Calculator()
+    plugins = load_plugins()  # Load additional plugins
 
-    try:
-        if operation == 'add':
-            result = a + b
-        elif operation == 'subtract':
-            result = a - b
-        elif operation == 'multiply':
-            result = a * b
-        elif operation == 'divide':
-            if b == 0:
-                logging.error("Attempted to divide by zero")
-                raise ValueError("Cannot divide by zero")
-            result = a / b
-        else:
-            logging.error(f"Unknown operation: {operation}")
-            raise ValueError(f"Unknown operation: {operation}")
-        
-        if result.is_integer():
-            result = int(result)
-            a = int(a)
-            b = int(b)
-        
-        logging.info(f"The result of {a} {operation} {b} is equal to {result}")
-        print(f"The result of {a} {operation} {b} is equal to {result}")
-    
-    except ValueError as e:
-        logging.error(f"Error in calculation: {e}")
-        raise
-
-def repl():
     while True:
-        user_input = input("Enter calculation (or 'menu' for options, 'exit' to quit): ")
-
-        # Check for special commands
-        if user_input.lower() == 'menu':
-            show_menu()
-            continue
-        elif user_input.lower() == 'exit':
+        command = input("Enter command: ").strip().lower()
+        
+        if command == 'exit':
             break
+        elif command == 'help':
+            show_help()
+        elif command == 'history':
+            # Load and display history from CSV
+            try:
+                history = pd.read_csv('data/calculation_history.csv')
+                print(history)
+            except FileNotFoundError:
+                print("No history found.")
+        elif command == 'clear_history':
+            # Clear history by saving an empty DataFrame
+            pd.DataFrame().to_csv('data/calculation_history.csv', index=False)
+            print("History cleared.")
+        elif command == 'plugins':
+            print("Loaded plugins:", ", ".join(plugins.keys()))
+        else:
+            # Split command to get operation and arguments
+            parts = command.split()
+            if len(parts) < 3:
+                print("Invalid command format. Type 'help' for options.")
+                continue
+            operation, *args = parts
 
-        # Handle regular calculation input
-        try:
-            a, b, operation = user_input.split()
-            calculate_and_print(a, b, operation)
-        except ValueError as e:
-            print(f"Error: {e}")
+            # Check if it's a calculator operation
+            if hasattr(calculator, operation):
+                try:
+                    # Perform calculation
+                    result = getattr(calculator, operation)(*map(float, args))
+                    print(f"Result: {result}")
+                    
+                    # Log result and save to history
+                    logging.info(f"Performed {operation} on {args}: {result}")
+                    save_history(operation, args, result)
+                    
+                except Exception as e:
+                    print(f"Error: {e}")
+                    logging.error(f"Failed to perform {operation} on {args}: {e}")
+            else:
+                print("Unknown command. Type 'help' for a list of commands.")
 
-if __name__ == '__main__':
-    repl()  # Start the REPL loop
+def save_history(operation, args, result):
+    """Helper function to save each calculation to the history CSV."""
+    history_file = 'data/calculation_history.csv'
+    new_entry = pd.DataFrame([[operation, *args, result]], columns=['Operation', 'Operand1', 'Operand2', 'Result'])
+    if os.path.exists(history_file):
+        history = pd.read_csv(history_file)
+        history = pd.concat([history, new_entry], ignore_index=True)
+    else:
+        history = new_entry
+    history.to_csv(history_file, index=False)
+
+if __name__ == "__main__":
+    main()
