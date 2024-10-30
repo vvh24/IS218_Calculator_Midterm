@@ -1,54 +1,36 @@
 import logging
-import logging.config
-import os
 from calculator import Calculator
 from commands.interactive_calculator import load_plugins
-import pandas as pd
+from app.history_facade import HistoryFacade  # Import the facade
+import os
 
 # Ensure logs folder exists
 os.makedirs('logs', exist_ok=True)
 
 # Configure logging
-logging.config.fileConfig('logging.conf')
+logging.basicConfig(filename='logs/app.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Function to show available commands
-def show_help():
-    print("\nAvailable commands:")
-    print("1. add <num1> <num2>")
-    print("2. subtract <num1> <num2>")
-    print("3. multiply <num1> <num2>")
-    print("4. divide <num1> <num2>")
-    print("5. history - view calculation history")
-    print("6. clear_history - clear all history records")
-    print("7. plugins - list all loaded plugins")
-    print("8. help - display this menu")
-    print("Type 'exit' to quit\n")
-
-# Main REPL loop
 def main():
     print("Welcome to the Calculator! Type 'help' to see available commands.")
     calculator = Calculator()
     plugins = load_plugins()  # Load additional plugins
+    history_facade = HistoryFacade()  # Initialize the facade
 
     while True:
         command = input("Enter command: ").strip().lower()
-        
+
         if command == 'exit':
             logging.info("Exiting the calculator.")
             break
         elif command == 'help':
             show_help()
         elif command == 'history':
-            try:
-                history_data = pd.read_csv('data/calculation_history.csv')
-                print(history_data)
-                logging.info("Displayed calculation history.")
-            except FileNotFoundError:
-                print("No history found.")
-                logging.warning("Attempted to display history, but no history file was found.")
+            # Use the facade to show history
+            history_facade.show_history()
+            logging.info("Displayed calculation history.")
         elif command == 'clear_history':
-            pd.DataFrame().to_csv('data/calculation_history.csv', index=False)
-            print("History cleared.")
+            # Use the facade to clear history
+            history_facade.clear_history()
             logging.info("Cleared calculation history.")
         elif command == 'plugins':
             print("Loaded plugins:", ", ".join(plugins.keys()))
@@ -62,11 +44,13 @@ def main():
 
             operation, *args = parts
 
+            # Check if it's a calculator operation
             if hasattr(calculator, operation):
                 try:
                     result = getattr(calculator, operation)(*map(float, args))
                     print(f"Result: {result}")
-                    save_history(operation, args, result)
+                    # Use the facade to save to history
+                    history_facade.save_to_history(operation, *args, result)
                     logging.info(f"Performed {operation} on {args}: Result = {result}")
                 except Exception as e:
                     print(f"Error: {e}")
@@ -75,7 +59,7 @@ def main():
                 try:
                     result = plugins[operation](*map(float, args))
                     print(f"Result: {result}")
-                    save_history(operation, args, result)
+                    history_facade.save_to_history(operation, *args, result)
                     logging.info(f"Performed plugin operation {operation} on {args}: Result = {result}")
                 except Exception as e:
                     print(f"Error: {e}")
@@ -83,18 +67,6 @@ def main():
             else:
                 print("Unknown command. Type 'help' for a list of commands.")
                 logging.warning(f"Unknown command entered: {operation}")
-
-def save_history(operation, args, result):
-    """Helper function to save each calculation to the history CSV."""
-    history_file = 'data/calculation_history.csv'
-    new_entry = pd.DataFrame([[operation, *args, result]], columns=['Operation', 'Operand1', 'Operand2', 'Result'])
-    if os.path.exists(history_file):
-        history_data = pd.read_csv(history_file)
-        history_data = pd.concat([history_data, new_entry], ignore_index=True)
-    else:
-        history_data = new_entry
-    history_data.to_csv(history_file, index=False)
-    logging.info(f"Saved history for {operation} with args {args} and result {result}")
 
 if __name__ == "__main__":
     main()

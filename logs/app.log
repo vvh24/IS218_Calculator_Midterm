@@ -10,3 +10,5 @@
 2024-10-30 10:33:34,538 - INFO - Performed divide on ['10', '5']: Result = 2.0
 2024-10-30 10:33:44,489 - INFO - Displayed list of plugins.
 2024-10-30 10:33:51,246 - INFO - Exiting the calculator.
+2024-10-30 10:50:22,454 - INFO - Performed add on ['3', '3']: Result = 6.0
+2024-10-30 10:50:25,134 - INFO - Exiting the calculator.
