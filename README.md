@@ -15,7 +15,7 @@ The interactive calculator provides built-in commands:
 
 ## Setup Instructions
 1. Clone the Repository
-git clone [<repository_url>](https://github.com/vvh24/IS218_Calculator_Midterm.git) cd IS218_Calculator_Midterm
+git clone [<my repo link!>](https://github.com/vvh24/IS218_Calculator_Midterm.git) cd IS218_Calculator_Midterm
 
 2. Create and Activate a Virtual Environment
 python3 -m venv my_env
