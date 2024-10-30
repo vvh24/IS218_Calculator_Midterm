@@ -1,6 +1,8 @@
 import pytest
-from commands.interactive_calculator import CommandHandler
+from commands.interactive_calculator import CommandHandler, repl
+from unittest.mock import patch
 
+# Fixture to initialize CommandHandler
 @pytest.fixture
 def handler():
     return CommandHandler()
@@ -35,23 +37,17 @@ def test_unknown_command(handler):
     with pytest.raises(ValueError, match="Unknown command"):
         handler.execute_command("unknown", 5, 3)
 
-# Test the 'menu' command output
+# Test the 'menu' command output to capture available commands
 def test_menu_command(handler, capsys):
-    # Execute the 'menu' command to print available commands
     handler.show_menu()
-    
-    # Capture the printed output
     captured = capsys.readouterr()
-
-    # Check if all expected commands are present in the menu output
     assert "Available commands:" in captured.out
     assert "add" in captured.out
     assert "subtract" in captured.out
     assert "multiply" in captured.out
     assert "divide" in captured.out
     assert "menu" in captured.out
-
-    # Optional: Add plugin commands if they are expected in the menu
+    # Optional: Check for plugin commands if applicable
     # assert "power" in captured.out
 
 # Test multiple operations in sequence
@@ -60,3 +56,27 @@ def test_multiple_operations(handler):
     assert handler.execute_command("subtract", 10, 5) == 5
     assert handler.execute_command("multiply", 10, 5) == 50
     assert handler.execute_command("divide", 10, 5) == 2
+
+# Additional Tests for Edge Cases and REPL
+
+# Test handling of missing arguments
+def test_execute_command_missing_arguments(handler):
+    with pytest.raises(TypeError):
+        handler.execute_command("add")  # No arguments provided
+
+# Test handling of invalid argument types
+def test_execute_command_invalid_arguments(handler):
+    with pytest.raises(ValueError, match="Invalid argument types: all arguments must be numbers."):
+        handler.execute_command("add", "five", "three")  # Non-numeric input
+        
+# Test handling of exit command in REPL loop
+def test_repl_exit():
+    with patch("builtins.input", side_effect=["exit"]), patch("builtins.print") as mock_print:
+        repl()
+        mock_print.assert_any_call("Exiting the interactive calculator.")
+
+# Test REPL with an invalid command
+def test_repl_invalid_command():
+    with patch("builtins.input", side_effect=["invalid", "exit"]), patch("builtins.print") as mock_print:
+        repl()
+        mock_print.assert_any_call("Invalid command. Type 'menu' to see available commands.")

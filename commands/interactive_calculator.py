@@ -29,16 +29,18 @@ def load_plugins():
 # Command handler class to manage operations
 class CommandHandler:
     def __init__(self):
-        # Load plugins and register built-in commands
-        self.commands = load_plugins()
-        self.commands.update({
-            'add': self.add,
-            'subtract': self.subtract,
-            'multiply': self.multiply,
-            'divide': self.divide,
-            'menu': self.show_menu
-        })
+        # Initialize commands and ensure 'menu' is included
+        self.commands = {
+            "add": self.add,
+            "subtract": self.subtract,
+            "multiply": self.multiply,
+            "divide": self.divide,
+            "menu": self.show_menu  # Make sure show_menu is included here
+        }
 
+        # Load plugins and add them to commands
+        self.commands.update(load_plugins())
+        
     # Define basic calculator operations
     def add(self, a, b):
         return a + b
@@ -54,14 +56,20 @@ class CommandHandler:
             raise ValueError("Cannot divide by zero")
         return a / b
 
+    # Method to execute commands with arguments
     def execute_command(self, command, *args):
+        try:
+            args = [float(arg) for arg in args]  # Convert arguments to floats
+        except ValueError:
+            raise ValueError("Invalid argument types: all arguments must be numbers.")
+        
         if command in self.commands:
             return self.commands[command](*args)
         else:
             raise ValueError(f"Unknown command: {command}")
 
+    # Define `show_menu` method to display available commands
     def show_menu(self, *_):
-        # Separate built-in and plugin commands
         built_in_commands = {'add', 'subtract', 'multiply', 'divide', 'menu'}
         plugin_commands = [cmd for cmd in self.commands if cmd not in built_in_commands]
         
@@ -71,7 +79,7 @@ class CommandHandler:
             print("Plugin commands: " + ", ".join(plugin_commands))
         else:
             print("No plugin commands available.")
-            
+
 # REPL function to interact with the user
 def repl():
     handler = CommandHandler()
