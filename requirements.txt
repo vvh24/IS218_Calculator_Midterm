@@ -1,3 +1,6 @@
+pandas
+pytest
+pytest-cov
 blinker==1.4
 cryptography==3.4.8
 distlib==0.3.8
