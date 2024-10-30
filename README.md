@@ -44,7 +44,7 @@ The application uses a comprehensive logging system to track operations, errors,
 * Logging Configuration: Logging is configured through logging.conf to handle different severity levels (INFO, WARNING, ERROR).
 * Example Code:
     * `main.py` logs each command execution.
-    * [Code Link for Logging in main.py](main.py)
+    * [Logging in main.py](main.py)
 
 # Exception Handling (LBYL and EAFP)
 The project uses both Look Before You Leap (LBYL) and Easier to Ask Forgiveness than Permission (EAFP) strategies for exception handling:
@@ -77,7 +77,7 @@ Watch the Video Demonstration <!-- video link -->
 
 2. Set Up Environment Variables:
 
-    Copy .env.example to .env and customize as needed.
+> - Copy .env.example to .env and customize as needed.
 
 3. Install Dependencies:
 * Create and activate a virtual environment:
