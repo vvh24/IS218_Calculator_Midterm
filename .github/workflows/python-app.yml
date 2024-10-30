@@ -1,30 +1,30 @@
-name: Python application
+name: Python application #define the name of the workflow for clarity
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ] #run this workflow when changes are pushed to the main branch
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" ] #run this workflow on pull requests targeting the main branch
 
 permissions:
-  contents: read
+  contents: read #define permissions for accessing repository contents(read-only here)
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #specify the OS environment; here its the latest Ubuntu version
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
+    - uses: actions/checkout@v3 #step to checkout the repository code so its available in the workflow 
+    - name: Set up Python 3.10 #step to set up Python 3.10 as the environment for this workflow
       uses: actions/setup-python@v3
       with:
-        python-version: "3.10"
-    - name: Install dependencies
+        python-version: "3.10" #specify the python version to use 
+    - name: Install dependencies #step to install necessary dependencies 
       run: |
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Test with pytest --pylint
+    - name: Test with pytest --pylint #step to run tests and possibly pylint for code quality
       run: |
         pytest
