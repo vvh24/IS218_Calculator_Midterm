@@ -70,20 +70,21 @@ Watch the Video Demonstration <!-- video link -->
 
 # Setup Instructions
 1. Clone the Repository:
+```
+git clone [My Repo Link!](https://github.com/vvh24/IS218_Calculator_Midterm.git)
 
-    git clone [My Repo Link!](https://github.com/vvh24/IS218_Calculator_Midterm.git)
-
-    cd IS218_Calculator_Midterm
-
+cd IS218_Calculator_Midterm
+```
 2. Set Up Environment Variables:
 ```
 Copy .env.example to .env and customize as needed.
 ```
 3. Install Dependencies:
 * Create and activate a virtual environment:
-
-    python3 -m venv env
-    source env/bin/activate  # On Windows, use `env\Scripts\activate`
+```
+python3 -m venv env
+source env/bin/activate 
+```
 * Install required packages:
 ```
 pip install -r requirements.txt
