@@ -41,40 +41,35 @@ def main():
         elif command == 'help':
             show_help()
         elif command == 'history':
-            # Load and display history from CSV
             try:
-                history = pd.read_csv('data/calculation_history.csv')
-                print(history)
+                history_data = pd.read_csv('data/calculation_history.csv')
+                print(history_data)
             except FileNotFoundError:
                 print("No history found.")
         elif command == 'clear_history':
-            # Clear history by saving an empty DataFrame
             pd.DataFrame().to_csv('data/calculation_history.csv', index=False)
             print("History cleared.")
         elif command == 'plugins':
             print("Loaded plugins:", ", ".join(plugins.keys()))
         else:
-            # Split command to get operation and arguments
             parts = command.split()
             if len(parts) < 3:
                 print("Invalid command format. Type 'help' for options.")
                 continue
             operation, *args = parts
 
-            # Check if it's a calculator operation
             if hasattr(calculator, operation):
                 try:
-                    # Perform calculation
                     result = getattr(calculator, operation)(*map(float, args))
                     print(f"Result: {result}")
-                    
-                    # Log result and save to history
-                    logging.info(f"Performed {operation} on {args}: {result}")
                     save_history(operation, args, result)
                     
                 except Exception as e:
                     print(f"Error: {e}")
-                    logging.error(f"Failed to perform {operation} on {args}: {e}")
+            elif operation in plugins:
+                result = plugins[operation](*map(float, args))
+                print(f"Result: {result}")
+                save_history(operation, args, result)
             else:
                 print("Unknown command. Type 'help' for a list of commands.")
 

@@ -1,36 +1,26 @@
-import sys
 import os
 import importlib.util
 
-# Add the root project directory to the system path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# Updated load_plugins function to support nested directories
 def load_plugins():
+    """Dynamically load plugins from the plugins directory."""
     plugins = {}
     plugin_dir = os.path.join(os.path.dirname(__file__), '../plugins')
 
-    # Walk through all subdirectories to find plugin .py files
-    for root, _, files in os.walk(plugin_dir):
-        for file in files:
-            if file.endswith('.py') and file != '__init__.py':
-                plugin_path = os.path.join(root, file)
-                plugin_name = os.path.splitext(file)[0]
-                # Extract folder name (e.g., add, subtract, multiply, etc.)
-                folder_name = os.path.basename(root)
+    # Walk through all plugin files in the plugins directory
+    for file in os.listdir(plugin_dir):
+        if file.endswith('.py') and file != '__init__.py':
+            plugin_name = file[:-3]
+            plugin_path = os.path.join(plugin_dir, file)
 
-                # Load the plugin using importlib
-                spec = importlib.util.spec_from_file_location(plugin_name, plugin_path)
-                module = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(module)
+            # Load the plugin using importlib
+            spec = importlib.util.spec_from_file_location(plugin_name, plugin_path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
 
-                # Make sure the plugin module has the expected 'operation' function
-                if hasattr(module, 'operation'):
-                    plugins[folder_name] = module.operation
-                    print(f"Loaded command: {folder_name}")
-                else:
-                    print(f"Plugin '{plugin_name}' in folder '{folder_name}' does not have an 'operation' function and was skipped.")
-    
+            # Register each function from the plugin
+            if hasattr(module, plugin_name):
+                plugins[plugin_name] = getattr(module, plugin_name)
+
     return plugins
 
 # Command handler class to manage operations
