@@ -77,7 +77,7 @@ cd IS218_Calculator_Midterm
 ```
 2. Set Up Environment Variables:
 ```
-Copy .env.example to .env and customize as needed.
+.env example (customize as needed).
 ```
 3. Install Dependencies:
 * Create and activate a virtual environment:
