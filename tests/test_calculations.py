@@ -1,7 +1,3 @@
-"""
-This module contains tests for the Calculations class and its functionality.
-"""
-
 from decimal import Decimal
 import pytest
 from calculator.calculation import Calculation
