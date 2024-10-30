@@ -76,26 +76,27 @@ Watch the Video Demonstration <!-- video link -->
     cd IS218_Calculator_Midterm
 
 2. Set Up Environment Variables:
-
-> - Copy .env.example to .env and customize as needed.
-
+```
+Copy .env.example to .env and customize as needed.
+```
 3. Install Dependencies:
 * Create and activate a virtual environment:
 
     python3 -m venv env
     source env/bin/activate  # On Windows, use `env\Scripts\activate`
 * Install required packages:
-
-    pip install -r requirements.txt
-
+```
+pip install -r requirements.txt
+```
 4. Run Tests:
 
 * Run all tests with pytest:
-
-    pytest --cov=app --cov=commands
-
+```
+pytest --cov=app --cov=commands
+```
 5. Start the REPL:
 
 * To use the calculator, start the REPL by running:
-
-    python commands/interactive_calculator.py
+```
+python commands/interactive_calculator.py
+```
