@@ -50,7 +50,7 @@ class HistoryManager:
         history.to_csv(self.history_file, index=False)
 
     def clear_history(self):
-         """
+        """
         Clear all calculation history by overwriting the CSV file with an empty DataFrame.
         """
         # Overwrite the file with an empty DataFrame with the same column headers

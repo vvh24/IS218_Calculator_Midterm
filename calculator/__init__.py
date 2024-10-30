@@ -40,7 +40,7 @@ class Calculator:
 
     @staticmethod
     def multiply(a: Decimal, b: Decimal) -> Decimal:
-         """Perform multiplication and store the result in history."""
+        """Perform multiplication and store the result in history."""
         return Calculator.perform_operation(a, b, multiply)
 
     @staticmethod
