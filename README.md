@@ -26,39 +26,38 @@ The Command Pattern is used to encapsulate each calculator operation (e.g., addi
 ## Facade Pattern
 The Facade Pattern is used in HistoryFacade to provide a simplified interface for managing calculation history. This pattern hides the complexities of history management, offering straightforward methods for loading, saving, and clearing history.
 
-* Code Link: History Facade
+* Code Link: [History Facade](app/history_facade.py)
 
 ## Singleton Pattern
 The Singleton Pattern is implemented in HistoryManager to ensure only one instance of the history manager is created. This centralizes the handling of calculation history, preventing multiple conflicting instances.
 
-* Code Link: History Manager
+* Code Link: [History Manager](app/history_manager.py)
 
 # Environment Variables
 Environment variables allow flexible configuration of the application without modifying the source code. For example, logging levels and file paths can be controlled using environment variables.
 
-* Example Configuration: .env.example
-* Usage in Code: Logging Configuration
+* Example Configuration: `.env.example`
 
 # Logging
 The application uses a comprehensive logging system to track operations, errors, and other significant events. Logging helps monitor the app's state, catch issues early, and review historical actions.
 
 * Logging Configuration: Logging is configured through logging.conf to handle different severity levels (INFO, WARNING, ERROR).
 * Example Code:
-    * main.py logs each command execution.
-    * Code Link for Logging in main.py
+    * `main.py` logs each command execution.
+    * [Code Link for Logging in main.py](main.py)
 
 # Exception Handling (LBYL and EAFP)
 The project uses both Look Before You Leap (LBYL) and Easier to Ask Forgiveness than Permission (EAFP) strategies for exception handling:
 
 * LBYL Example: In the division command, the code checks if the divisor is zero before attempting division, preventing a potential error.
-    * Code Link: Division Command
+    * Code Link: [Division Command](commands/divide_command.py)
 * EAFP Example: The code attempts to load plugins and catches any ImportErrors, handling them gracefully if a plugin cannot be loaded.
-    * Code Link: Plugin Loader
+    * Code Link: [Plugin Loader](commands/interactive_calculator.py#L4)
 
 # Testing and Continuous Integration
 GitHub Actions is configured to automatically run tests on each push and pull request. All tests are expected to pass to ensure code reliability.
 
-GitHub Actions Workflow: python-app.yml
+GitHub Actions Workflow: [python-app.yml](.github/workflows/python-app.yml)
 
 # Video Demonstration
 A short demonstration video showcases the calculator’s key features, including:
@@ -72,12 +71,13 @@ Watch the Video Demonstration <!-- video link -->
 # Setup Instructions
 1. Clone the Repository:
 
-    git clone <https://github.com/vvh24/IS218_Calculator_Midterm.git> 
-    cd <IS218_Calculator_Midterm>
+    git clone [My Repo Link!](https://github.com/vvh24/IS218_Calculator_Midterm.git)
+
+    cd IS218_Calculator_Midterm
 
 2. Set Up Environment Variables:
 
-Copy .env.example to .env and customize as needed.
+    Copy .env.example to .env and customize as needed.
 
 3. Install Dependencies:
 * Create and activate a virtual environment:
