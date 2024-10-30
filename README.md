@@ -15,8 +15,7 @@ The interactive calculator provides built-in commands:
 
 ## Setup Instructions
 1. Clone the Repository
-git clone <repository_url>
-cd IS218_Calculator_Midterm
+git clone [<repository_url>](https://github.com/vvh24/IS218_Calculator_Midterm.git) cd IS218_Calculator_Midterm
 
 2. Create and Activate a Virtual Environment
 python3 -m venv my_env
@@ -25,12 +24,12 @@ source my_env/bin/activate  # On Windows, use `my_env\Scripts\activate`
 3. Install Dependencies
 All dependencies, including pytest, pytest-cov, and other necessary packages, are listed in requirements.txt. Install them by running:
 
-pip install -r requirements.txt
+    pip install -r requirements.txt
 
 ## Usage Examples
 To start the REPL for interactive use, run:
 
-python commands/interactive_calculator.py
+    python commands/interactive_calculator.py
 
 In the REPL, enter commands like add 5 3 or divide 10 2. Use menu to see available commands. To exit, type exit.
 
@@ -56,8 +55,8 @@ pytest --cov=app --cov=commands --cov=main --cov=calculator tests/
 After running tests, a coverage summary displays showing which files and functions are covered. Look for coverage percentages; ideally, each file and function should aim for 100% coverage to ensure thorough testing.
 
 ## Dependencies
-Python 3.10+
-pytest: Testing framework
-pytest-cov: Code coverage plugin for pytest
-Faker: Generates fake data for testing
-Additional dependencies as specified in requirements.txt
+* Python 3.10+
+* pytest: Testing framework
+* pytest-cov: Code coverage plugin for pytest
+* Faker: Generates fake data for testing
+* Additional dependencies as specified in requirements.txt
