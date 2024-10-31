@@ -27,3 +27,11 @@
 2024-10-30 21:03:36,683 - ERROR - Error performing divide on ['5', '0']: Cannot divide by zero
 2024-10-30 21:03:45,208 - INFO - Performed subtract on ['5', '5']: Result = 0.0
 2024-10-30 21:03:47,909 - INFO - Exiting the calculator.
+2024-10-30 21:54:18,923 - INFO - Performed add on ['2', '2']: Result = 4.0
+2024-10-30 21:54:33,815 - INFO - Performed subtract on ['5', '10']: Result = -5.0
+2024-10-30 21:54:40,712 - INFO - Performed divide on ['10', '5']: Result = 2.0
+2024-10-30 21:54:53,598 - INFO - Performed multiply on ['2', '2']: Result = 4.0
+2024-10-30 21:55:00,494 - INFO - Performed multiply on ['18', '2']: Result = 36.0
+2024-10-30 21:55:08,948 - INFO - Performed add on ['2', '15']: Result = 17.0
+2024-10-30 21:55:28,936 - INFO - Performed add on ['2', '2']: Result = 4.0
+2024-10-30 21:55:32,493 - INFO - Exiting the calculator.
