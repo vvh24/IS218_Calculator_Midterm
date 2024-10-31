@@ -12,3 +12,18 @@
 2024-10-30 10:33:51,246 - INFO - Exiting the calculator.
 2024-10-30 10:50:22,454 - INFO - Performed add on ['3', '3']: Result = 6.0
 2024-10-30 10:50:25,134 - INFO - Exiting the calculator.
+2024-10-30 20:55:37,479 - INFO - Performed add on ['2', '2']: Result = 4.0
+2024-10-30 20:55:53,145 - INFO - Performed multiply on ['2', '2']: Result = 4.0
+2024-10-30 20:56:04,324 - ERROR - Error performing divide on ['5', '0']: Cannot divide by zero
+2024-10-30 20:56:10,775 - WARNING - Unknown command entered: power
+2024-10-30 21:00:26,332 - WARNING - Invalid command format entered.
+2024-10-30 21:00:32,432 - WARNING - Invalid command format entered.
+2024-10-30 21:00:35,058 - INFO - Performed add on ['2', '2']: Result = 4.0
+2024-10-30 21:00:41,432 - INFO - Performed divide on ['5', '2']: Result = 2.5
+2024-10-30 21:00:46,737 - ERROR - Error performing divide on ['5', '0']: Cannot divide by zero
+2024-10-30 21:00:55,268 - INFO - Exiting the calculator.
+2024-10-30 21:03:21,696 - INFO - Displayed menu of commands.
+2024-10-30 21:03:32,868 - INFO - Performed add on ['2', '2']: Result = 4.0
+2024-10-30 21:03:36,683 - ERROR - Error performing divide on ['5', '0']: Cannot divide by zero
+2024-10-30 21:03:45,208 - INFO - Performed subtract on ['5', '5']: Result = 0.0
+2024-10-30 21:03:47,909 - INFO - Exiting the calculator.

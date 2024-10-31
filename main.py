@@ -1,6 +1,7 @@
 import logging
 from calculator import Calculator
 from commands.interactive_calculator import load_plugins
+from commands.interactive_calculator import CommandHandler
 from app.history_facade import HistoryFacade  # Import the facade
 import os
 
@@ -15,6 +16,7 @@ def main():
     calculator = Calculator()
     plugins = load_plugins()  # Load additional plugins
     history_facade = HistoryFacade()  # Initialize the facade
+    command_handler = CommandHandler()  # Initialize CommandHandler to access show_menu
 
     while True:
         command = input("Enter command: ").strip().lower()
@@ -23,7 +25,7 @@ def main():
             logging.info("Exiting the calculator.")
             break
         elif command == 'help':
-            show_help()
+            command_handler.show_menu()  # Call show_menu to display available commands
         elif command == 'history':
             # Use the facade to show history
             history_facade.show_history()
@@ -32,6 +34,9 @@ def main():
             # Use the facade to clear history
             history_facade.clear_history()
             logging.info("Cleared calculation history.")
+        elif command == 'menu':
+            command_handler.show_menu()  # Call show_menu directly for the 'menu' command
+            logging.info("Displayed menu of commands.")
         elif command == 'plugins':
             print("Loaded plugins:", ", ".join(plugins.keys()))
             logging.info("Displayed list of plugins.")
