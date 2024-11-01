@@ -60,13 +60,8 @@ GitHub Actions is configured to automatically run tests on each push and pull re
 GitHub Actions Workflow: [python-app.yml](.github/workflows/python-app.yml)
 
 # Video Demonstration
-A short demonstration video showcases the calculator’s key features, including:
 
-* Basic and plugin operations
-* History management
-* Logging and exception handling
-
-Watch the Video Demonstration <!-- video link -->
+Click to the link to watch my video demonstration of the calculator! [My Video](https://youtu.be/-AYMYAnCOsU)
 
 # Setup Instructions
 1. Clone the Repository:
